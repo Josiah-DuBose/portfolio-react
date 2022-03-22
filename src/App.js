@@ -1,17 +1,24 @@
-import { Route, Routes } from "react-router-dom";
-import Layout from "./components/Layout";
-import Home from "./pages/Home";
+import { Outlet } from "react-router-dom";
+import { makeStyles } from '@mui/styles';
+import NavBar from "./components/NavBar";
+
+const useStyles = makeStyles({
+  container: {},
+  outlet: {
+    display: 'flex',
+  },
+});
 
 const App = () => {
+  const classes = useStyles();
   return (
-    <div className='App'>
-      <Routes>
-        <Route path="/" element={<Layout />} />
-          <Route index element={<Home />} />
-          {/* <Route path="/home" element={<Home />} /> */}
-      </Routes>
+    <div className={classes?.container}>
+      <NavBar />
+      <div className={classes?.outlet}>
+        <Outlet />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
