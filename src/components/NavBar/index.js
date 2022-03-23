@@ -5,7 +5,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
@@ -43,8 +42,8 @@ const NavBar = () => {
           <InstagramIcon />
         </IconButton>
       </Stack>
-    )
-  }
+    );
+  };
 
   return (
     <AppBar
@@ -72,7 +71,7 @@ const NavBar = () => {
             onClick={handleOpenNavMenu}
             color="inherit"
           >
-            <MenuIcon />
+            <img style={{ width: '60px', height: 'auto' }} src={logo} alt='logo' />
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -102,10 +101,10 @@ const NavBar = () => {
         <Box
           sx={{
             mb: '2px',
-            display: 'flex'
+            display: { md: 'flex', xs: 'none' }
           }}
         >
-          <img style={{ width: '75px', height: 'auto' }} src={logo} alt='logo' />
+          <img style={{ width: '65px', height: 'auto' }} src={logo} alt='logo' />
         </Box>
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: '10%' }}>
           {pages.map((page) => (
