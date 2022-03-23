@@ -1,23 +1,38 @@
 import { Outlet } from "react-router-dom";
-import { makeStyles } from '@mui/styles';
 import NavBar from "./components/NavBar";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const useStyles = makeStyles({
-  container: {},
-  outlet: {
-    display: 'flex',
+const theme = createTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      main: '#41c1ba',
+    },
+    secondary: {
+      main: '#6c9286',
+    },
+    background: {
+      default: '#f7f7f7',
+    },
+    info: {
+      main: '#289dd2',
+    },
+    dark: {
+      main: '#365B6D',
+    }
   },
 });
 
 const App = () => {
-  const classes = useStyles();
   return (
-    <div className={classes?.container}>
-      <NavBar />
-      <div className={classes?.outlet}>
-        <Outlet />
+    <ThemeProvider theme={theme}>
+      <div style={{ height: '100vh', width: '99vw' }}>
+        <NavBar />
+        <div style={{ height: '90vh', width: '99vw' }}>
+          <Outlet />
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
