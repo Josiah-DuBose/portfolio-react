@@ -5,7 +5,10 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { get } from 'lodash';
+import { sendEmail } from '../../helpers/email';
+import Loading from '../../components/Loading';
 
 const style = {
     position: 'absolute',
@@ -18,8 +21,12 @@ const style = {
     p: 4,
 };
 
+const defaultForm = { from_name: '', from_email: '', message: '' }
+
 const ContactModal = ({ open, handleClose }) => {
-    const [form, setForm] = React.useState({ name: '', email: '', message: '' });
+    const [form, setForm] = React.useState({ ...defaultForm });
+    const [loading, setLoading] = React.useState(false);
+    const [msgSent, setMsgSent] = React.useState(false);
 
     const handleChange = (e) => {
         const val = get(e, 'target.value');
@@ -27,20 +34,32 @@ const ContactModal = ({ open, handleClose }) => {
         setForm({ ...form, [key]: val });
     };
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async () => {
+        try {
+            setLoading(true);
+            await sendEmail(form);
+            setMsgSent(true);
+            setForm(defaultForm);
+            await new Promise(r => setTimeout(r, 1200));
+        } catch (err) {
+            console.error('Error sending email: ', err)
+        } finally {
+            setLoading(false);
+            setMsgSent(false);
+            handleClose();
+        }
     };
 
     return (
-        <div>
-            <Modal open={open} onClose={handleClose}>
-                <Box sx={style}>
-                    <Typography color="dark" variant="h5">
-                        Contact
-                    </Typography>
+        <Modal open={open} onClose={handleClose}>
+            <Box sx={style}>
+                <Typography color="dark" variant="h5">
+                    Contact
+                </Typography>
+                {!loading && !msgSent && (
                     <Box>
                         <TextField
-                            id="name"
+                            id="from_name"
                             label="Name"
                             value={form.name}
                             onChange={handleChange}
@@ -52,7 +71,7 @@ const ContactModal = ({ open, handleClose }) => {
                             }}
                         />
                         <TextField
-                            id="email"
+                            id="from_email"
                             label="Email"
                             value={form.email}
                             onChange={handleChange}
@@ -100,9 +119,24 @@ const ContactModal = ({ open, handleClose }) => {
                             </Button>
                         </Stack>
                     </Box>
-                </Box>
-            </Modal>
-        </div>
+                )}
+                {loading && !msgSent && <Loading styles={{  mt: '10%', mb: '10%', }} msg="Sending email" />}
+                {msgSent && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            mt: '10%',
+                            mb: '10%',
+                        }}
+                    >
+                        <Typography color="dark" variant="body1">
+                            <CheckCircleIcon color="primary" /> Message sent
+                        </Typography>
+                    </Box>
+                )}
+            </Box>
+        </Modal>
     );
 };
 

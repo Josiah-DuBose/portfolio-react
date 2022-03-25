@@ -21,6 +21,15 @@ const theme = createTheme({
       main: '#365B6D',
     }
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 50,
+        },
+      },
+    },
+  },
 });
 
 const App = () => {

@@ -50,7 +50,6 @@ const LeftCard = () => {
                 <Button
                     sx={{
                         fontSize: '.8rem',
-                        borderRadius: 50,
                         p: '20px 50px 20px 50px',
                         color: 'white',
                     }}
@@ -63,7 +62,6 @@ const LeftCard = () => {
                 <Button
                     sx={{
                         fontSize: '.8rem',
-                        borderRadius: 50,
                         p: '20px 50px 20px 50px',
                         color: 'white',
                     }}
